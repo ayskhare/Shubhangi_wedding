@@ -37,12 +37,12 @@ body{font-family:"Nunito Sans",system-ui,sans-serif;color:var(--ink);background:
 .legend span{display:flex;align-items:center;gap:5px}
 .dot,.ring{width:14px;height:14px;border-radius:4px;display:inline-block}
 .dot.vacant{background:var(--vacant)}.dot.booked{background:var(--booked)}.dot.partial{background:linear-gradient(135deg,var(--booked) 50%,var(--vacant) 50%)}
-.ring{background:#fff;border:3px solid}.ring.bride{border-color:var(--bride)}.ring.groom{border-color:var(--groom)}
+.ring{background:#fff;border:4px solid}.ring.bride{border-color:var(--bride)}.ring.groom{border-color:var(--groom)}
 h3{font:700 1.35rem "Cormorant Garamond",serif;margin:16px 0 8px;color:var(--rose)}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 @media(min-width:420px){.grid{grid-template-columns:repeat(4,1fr)}}
 @media(min-width:700px){.grid{grid-template-columns:repeat(6,1fr)}main{max-width:760px;margin:auto}}
-.room{aspect-ratio:1;border:4px solid transparent;border-radius:14px;background:var(--vacant);color:var(--vacant-ink);
+.room{aspect-ratio:1;border:6px solid transparent;border-radius:14px;background:var(--vacant);color:var(--vacant-ink);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px;font-family:inherit;cursor:pointer;overflow:hidden}
 .room b{font-size:1.15rem}.room small{font-size:.7rem;max-width:100%;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}.room i{font-size:.65rem;font-style:normal;opacity:.8}
 .room.booked{background:var(--booked);color:var(--booked-ink)}

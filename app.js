@@ -29,13 +29,13 @@ async function save(no, rec) {
 
 /* ---------- planner ---------- */
 function render() {
-  const b = window.ROOMS[building]; let total = 0, booked = 0;
+  const b = window.ROOMS[building]; let total = 0, booked = 0, persons = 0;
   $("#floors").innerHTML = [...b.floors].reverse().map(f => `<h3>${esc(f.label)}</h3><div class="grid">` +
-    f.rooms.map(r => { const g = data[r.no]; total++; if (g) booked++;
+    f.rooms.map(r => { const g = data[r.no]; total++; if (g) { booked++; persons += Number(g.people) || 0; }
       const part = g && g.people < r.cap;
       return `<button class="room ${g ? "booked " + g.side : ""} ${part ? "partial" : ""}" data-no="${esc(r.no)}"><b>${esc(r.no)}</b><small>${g ? esc(label(g.guest_name)) : "Vacant"}</small><i>${g ? g.people + " of " : "Max "}${r.cap}</i></button>`;
     }).join("") + `</div>`).join("");
-  $("#summary").innerHTML = `<div><b>${total}</b>Rooms</div><div><b>${total - booked}</b>Vacant</div><div><b>${booked}</b>Booked</div>`;
+  $("#summary").innerHTML = `<div><b>${total}</b>Rooms</div><div><b>${total - booked}</b>Vacant</div><div><b>${persons}</b>Persons</div>  `;
   $$("#tabs button").forEach(t => t.classList.toggle("on", t.dataset.b === building));
 }
 const label = n => { const l = String(n).split(/\n/).map(x => x.trim()).filter(Boolean); return (l[0] || "") + (l.length > 1 ? " +" + (l.length - 1) : ""); };

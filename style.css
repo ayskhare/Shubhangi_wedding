@@ -1,0 +1,74 @@
+:root{
+  --paper:#fff4f2; --ink:#4a1d34; --rose:#c2486b; --gold:#e0a93b;
+  --vacant:#bfe3cc; --vacant-ink:#1f5a3a; --booked:#e98a93; --booked-ink:#5a1420;
+  --bride:#ff5fa2; --groom:#2f7de1;
+  --hdr:56px; --tab:62px;
+}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:"Nunito Sans",system-ui,sans-serif;color:var(--ink);background:
+  radial-gradient(circle at 0 0,#ffd9e2 0,transparent 38%),radial-gradient(circle at 100% 100%,#ffe9c2 0,transparent 35%),var(--paper);
+  padding-top:calc(var(--hdr) + env(safe-area-inset-top,0px) + 14px)}
+[hidden]{display:none!important}
+.top{position:fixed;inset:0 0 auto;z-index:20;height:calc(var(--hdr) + env(safe-area-inset-top,0px));padding-top:env(safe-area-inset-top,0px);
+  display:flex;align-items:center;gap:8px;padding-inline:8px;background:#fff4f2f2;backdrop-filter:blur(6px)}
+.brand{flex:1;text-align:center;font:700 1.5rem "Cormorant Garamond",serif;color:var(--ink);text-decoration:none}
+.icon-btn{width:44px;height:44px;border:0;border-radius:50%;background:transparent;font-size:1.5rem;color:var(--ink);cursor:pointer}
+.garland{position:fixed;z-index:19;left:0;right:0;top:calc(var(--hdr) + env(safe-area-inset-top,0px));height:14px;
+  background:radial-gradient(circle at 50% 100%,var(--gold) 0 6px,transparent 7px) 0 0/22px 14px repeat-x,
+  radial-gradient(circle at 50% 100%,#f08a3c 0 4px,transparent 5px) 11px 0/22px 14px repeat-x}
+.scrim{position:fixed;inset:0;z-index:30;background:#2a0f1c88;opacity:0;pointer-events:none;transition:opacity .25s}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;z-index:31;top:0;bottom:0;left:0;width:78%;max-width:320px;background:#fff;padding:calc(env(safe-area-inset-top,0px) + 24px) 20px;
+  transform:translateX(-100%);transition:transform .28s ease;box-shadow:6px 0 24px #4a1d3440}
+.drawer.on{transform:none}
+.drawer h2{font:700 1.8rem "Cormorant Garamond",serif;margin-bottom:16px;color:var(--rose)}
+.drawer a{display:block;padding:14px 12px;border-radius:12px;color:var(--ink);text-decoration:none;font-weight:700;background:#fff0f3}
+
+.page{padding:0 14px calc(var(--tab) + env(safe-area-inset-bottom,0px) + 24px)}
+#home{padding:0;height:calc(100vh - var(--hdr) - 14px);height:calc(100dvh - var(--hdr) - 14px - env(safe-area-inset-top,0px));position:relative;background:#000}
+#home video{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.enter{position:absolute;inset:auto 0 12% 0;margin:auto;width:max-content;padding:16px 30px;border:0;border-radius:40px;background:var(--rose);color:#fff;font:700 1.1rem "Nunito Sans";box-shadow:0 8px 24px #0006}
+
+.summary{display:flex;gap:8px;margin:14px 0 8px}
+.summary div{flex:1;padding:10px;border-radius:14px;background:#fff;text-align:center;font-size:.8rem;border:1px solid #f3c9d3}
+.summary b{display:block;font:700 1.6rem "Cormorant Garamond",serif}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.75rem;margin-bottom:6px}
+.legend span{display:flex;align-items:center;gap:5px}
+.dot,.ring{width:14px;height:14px;border-radius:4px;display:inline-block}
+.dot.vacant{background:var(--vacant)}.dot.booked{background:var(--booked)}
+.ring{background:#fff;border:3px solid}.ring.bride{border-color:var(--bride)}.ring.groom{border-color:var(--groom)}
+h3{font:700 1.35rem "Cormorant Garamond",serif;margin:16px 0 8px;color:var(--rose)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(min-width:420px){.grid{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:700px){.grid{grid-template-columns:repeat(6,1fr)}main{max-width:760px;margin:auto}}
+.room{aspect-ratio:1;border:4px solid transparent;border-radius:14px;background:var(--vacant);color:var(--vacant-ink);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px;font-family:inherit;cursor:pointer;overflow:hidden}
+.room b{font-size:1.15rem}.room small{font-size:.7rem;max-width:100%;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}.room i{font-size:.65rem;font-style:normal;opacity:.8}
+.room.booked{background:var(--booked);color:var(--booked-ink)}
+.room.bride{border-color:var(--bride)}.room.groom{border-color:var(--groom)}
+.room:active{transform:scale(.96)}
+
+.tabs{position:fixed;z-index:20;inset:auto 0 0 0;height:calc(var(--tab) + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);display:flex;background:#fff;border-top:3px solid var(--gold)}
+.tabs button{flex:1;border:0;background:none;font:700 1rem "Nunito Sans";color:#8a5a6e;cursor:pointer}
+.tabs button.on{color:#fff;background:var(--rose)}
+
+.modal{position:fixed;inset:0;z-index:40;background:#2a0f1c99;display:flex;align-items:flex-end;justify-content:center}
+.sheet{width:100%;max-width:480px;background:#fff;border-radius:22px 22px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom,0px))}
+.sheet h4{font:700 1.7rem "Cormorant Garamond",serif;color:var(--rose);margin-bottom:4px}
+.sheet p{margin:6px 0}
+.sheet label{display:block;margin:12px 0 4px;font-weight:700;font-size:.85rem}
+.sheet input[type=text],.sheet input[type=number],.sheet input[type=email],.sheet input[type=password]{width:100%;padding:12px;border:1.5px solid #e6bcc8;border-radius:12px;font:inherit;font-size:1rem}
+.side{display:flex;gap:10px}
+.side label{flex:1;margin:0;padding:12px;border:3px solid #eee;border-radius:12px;text-align:center;cursor:pointer}
+.side input{display:none}
+.side input:checked+span{font-weight:800}
+.side label.b{border-color:var(--bride)}.side label.g{border-color:var(--groom)}
+.side label:has(input:checked){background:#fff0f3;box-shadow:0 0 0 3px #4a1d3433}
+.row{display:flex;gap:10px;margin-top:18px}
+.btn{flex:1;padding:14px;border:0;border-radius:12px;font:700 1rem "Nunito Sans";cursor:pointer;background:var(--rose);color:#fff}
+.btn.alt{background:#f6e3e8;color:var(--ink)}.btn.del{background:#fff;color:#b3261e;border:1.5px solid #b3261e}
+.note{font-size:.8rem;color:#b3261e;margin-top:8px}
+.toast{position:fixed;z-index:50;left:50%;bottom:calc(var(--tab) + 16px);transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:20px;font-size:.85rem}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}

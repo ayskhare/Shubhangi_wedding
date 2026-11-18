@@ -5,7 +5,7 @@ A mobile-first website for managing the wedding. It is for the family, not for g
 - **Landing page:** your video plays on a loop with sound, no controls.
 - **Menu (☰, top left):** slides in from the left. Right now it has one item: **Room Planner**.
 - **Room Planner:** three tabs at the bottom (Front, Middle, Rear). Rooms appear as square blocks, floor by floor.
-  - Green = vacant, red = booked.
+  - Green = vacant, red = full, red/green diagonal split = partly filled (fewer people than the room's maximum).
   - Pink border = bride side, blue border = groom side.
   - Tap a room to see the guest, add a guest (if vacant), change the guest, or vacate the room.
 - Plain HTML, CSS and JavaScript. No build step, no framework.
@@ -29,19 +29,15 @@ A mobile-first website for managing the wedding. It is for the family, not for g
 
 Note: phones block sound that starts on its own. If sound is blocked, a **"Tap to begin"** button appears. One tap starts the video with sound. This is a browser rule and cannot be turned off.
 
-## Step 2. Add your real rooms
+## Step 2. Rooms (already set from your room sheet)
 
-Open `rooms.js`. The rooms in it are placeholders. Replace the numbers with those from your JPEG:
+`rooms.js` already holds your real rooms (maximum people per room, taken from the sheet's final totals):
 
-```js
-mk(1, [101,102,103,104,105,106]),   // Floor 1, each room fits 3 people
-mk(2, [201,202,203], 2),            // Floor 2, each room fits 2 people (last number = capacity)
-```
+- **Front:** Ground 101-105, 1st 106-110, 2nd 111-115, 3rd 116-120
+- **Middle:** 2nd floor 201-208 plus **Dorm** (20 mattresses), 3rd floor 209-220. The ground-floor AC Banquet Hall is not shown.
+- **Rear:** Ground 301-306, 1st 307-312
 
-- Room numbers must be unique across all buildings.
-- The Front building needs 4 floors, Middle 3, Rear 2 (already set up).
-- If rooms on one floor have different capacities, write them individually:
-  `{ label: "Floor 1", rooms: [{no:"101",cap:2},{no:"102",cap:4}] }`
+To change a room, edit its entry in `rooms.js`: `[room number, max people]`. Room numbers must be unique.
 
 ## Step 3. Choose how data is saved
 
@@ -97,10 +93,11 @@ Double-click `index.html`, or for a better test run in this folder: `python3 -m 
 
 ## Using the planner
 
-- **Add a guest:** tap a green room, enter name and number of people, pick Bride or Groom side, Save.
+- **Add a guest:** tap a green room, enter name(s) and number of people, pick Bride or Groom side, Save. The name box has no limit and takes a list: write one name or family per line if several share a room (the block shows the first name and "+2" for the rest).
+- **Partly filled:** if the people count is lower than the room maximum, the block is split red/green. At or above the maximum it is solid red.
 - **Change a guest:** tap a red room, edit, Save.
 - **Vacate:** tap a red room, then Vacate.
-- A warning appears if the people count is more than the room's capacity.
+- A warning appears if the people count is more than the room's maximum.
 - In shared mode, other phones refresh every 30 seconds and whenever they reopen the page.
 
 ## Backup (Local mode)

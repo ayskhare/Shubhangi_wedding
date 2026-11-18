@@ -32,22 +32,24 @@ function render() {
   const b = window.ROOMS[building]; let total = 0, booked = 0;
   $("#floors").innerHTML = [...b.floors].reverse().map(f => `<h3>${esc(f.label)}</h3><div class="grid">` +
     f.rooms.map(r => { const g = data[r.no]; total++; if (g) booked++;
-      return `<button class="room ${g ? "booked " + g.side : ""}" data-no="${esc(r.no)}"><b>${esc(r.no)}</b><small>${g ? esc(g.guest_name) : "Vacant"}</small><i>${g ? g.people + " of " : "Max "}${r.cap}</i></button>`;
+      const part = g && g.people < r.cap;
+      return `<button class="room ${g ? "booked " + g.side : ""} ${part ? "partial" : ""}" data-no="${esc(r.no)}"><b>${esc(r.no)}</b><small>${g ? esc(label(g.guest_name)) : "Vacant"}</small><i>${g ? g.people + " of " : "Max "}${r.cap}</i></button>`;
     }).join("") + `</div>`).join("");
   $("#summary").innerHTML = `<div><b>${total}</b>Rooms</div><div><b>${total - booked}</b>Vacant</div><div><b>${booked}</b>Booked</div>`;
   $$("#tabs button").forEach(t => t.classList.toggle("on", t.dataset.b === building));
 }
+const label = n => { const l = String(n).split(/\n/).map(x => x.trim()).filter(Boolean); return (l[0] || "") + (l.length > 1 ? " +" + (l.length - 1) : ""); };
 const findRoom = no => Object.values(window.ROOMS).flatMap(b => b.floors.flatMap(f => f.rooms)).find(r => r.no === no);
 
 function openRoom(no) {
   const r = findRoom(no), g = data[no], sheet = $("#sheet");
   if (!canEdit) {
     sheet.innerHTML = `<h4>Room ${esc(no)}</h4>` + (g
-      ? `<p><b>${esc(g.guest_name)}</b></p><p>${g.people} of ${r.cap} people</p><p>${g.side === "bride" ? "Bride" : "Groom"} side</p>`
+      ? `<p class="names"><b>${esc(g.guest_name)}</b></p><p>${g.people} of ${r.cap} people</p><p>${g.side === "bride" ? "Bride" : "Groom"} side</p>`
       : `<p>Vacant (max ${r.cap} people)</p>`) + `<div class="row"><button class="btn alt" data-x>Close</button></div>`;
   } else {
     sheet.innerHTML = `<h4>Room ${esc(no)}</h4><p>${g ? "Change guest" : "Vacant. Add guest"} (max ${r.cap} people)</p>
-      <label for="gn">Guest name</label><input id="gn" type="text" value="${esc(g?.guest_name)}" autocomplete="off">
+      <label for="gn">Guest name(s). One name or family per line</label><textarea id="gn" rows="4">${esc(g?.guest_name)}</textarea>
       <label for="gp">Number of people</label><input id="gp" type="number" min="1" value="${g?.people || 1}" inputmode="numeric">
       <label>Side</label><div class="side">
         <label class="b"><input type="radio" name="side" value="bride" ${g?.side !== "groom" ? "checked" : ""}><span>Bride side</span></label>
@@ -61,7 +63,7 @@ function openRoom(no) {
     if (e.target.matches("[data-del]")) { if (await save(no, null)) { closeModal(); render(); } }
     if (e.target.matches("[data-save]")) {
       const name = $("#gn").value.trim(), people = parseInt($("#gp").value, 10), side = sheet.querySelector("[name=side]:checked").value, err = $("#err");
-      if (!name || !(people > 0)) { err.textContent = "Enter the guest name and number of people."; err.hidden = false; return; }
+      if (!name || !(people > 0)) { err.textContent = "Enter the guest name(s) and number of people."; err.hidden = false; return; }
       if (people > r.cap && !confirm(`This room fits ${r.cap}. Save ${people} people anyway?`)) return;
       if (await save(no, { guest_name: name, people, side })) { closeModal(); render(); }
     }
